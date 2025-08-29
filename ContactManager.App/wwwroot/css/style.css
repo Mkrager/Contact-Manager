@@ -25,6 +25,28 @@ body {
         padding: 6px;
     }
 
+    .upload-form label.btn-upload {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #00268a;
+        color: white;
+        padding: 7px 14px;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+    }
+
+        .upload-form label.btn-upload:hover {
+            background-color: #001f6e;
+        }
+
+    .upload-form .file-name {
+        font-size: 0.9em;
+        color: #333;
+        font-style: italic;
+        margin-left: 10px;
+    }
+
+
 .btn-upload {
     background-color: #00268a;
     color: white;
@@ -36,7 +58,7 @@ body {
 }
 
     .btn-upload:hover {
-        background-color: #45a049;
+        background-color: #001f6e;
     }
 
 .contact-table {

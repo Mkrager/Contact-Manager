@@ -22,11 +22,7 @@ namespace ContactManager.App.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            using var ms = new MemoryStream();
-            await file.CopyToAsync(ms);
-            ms.Position = 0;
-
-            await _contactDataService.UploadCsv(ms);
+            await _contactDataService.UploadCsv(file.OpenReadStream());
 
             return RedirectToAction("Index");
         }
