@@ -19,7 +19,9 @@ namespace ContactManager.Application.Features.Contacts.Commands.UploadContactCsv
         {
             var contacts = await _contactCsvService.ParseCsvAsync(request.FileStream);
 
-            _contactRepository.AddAsync(contacts);
+            var result = await _contactRepository.AddAsync(contacts.First());
+
+            return result.Id;
         }
     }
 }
