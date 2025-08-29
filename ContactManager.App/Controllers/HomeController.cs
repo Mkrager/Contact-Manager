@@ -11,10 +11,24 @@ namespace ContactManager.App.Controllers
         {
             _contactDataService = contactDataService;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var contacts = await _contactDataService.GetAllContacts();
             return View(contacts);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            using var ms = new MemoryStream();
+            await file.CopyToAsync(ms);
+            ms.Position = 0;
+
+            await _contactDataService.UploadCsv(ms);
+
+            return RedirectToAction("Index");
         }
     }
 }

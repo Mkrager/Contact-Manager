@@ -1,5 +1,6 @@
 ﻿using ContactManager.App.Contracts;
 using ContactManager.App.Models;
+using System.IO;
 using System.Text.Json;
 
 namespace ContactManager.App.Services
@@ -35,6 +36,27 @@ namespace ContactManager.App.Services
             }
 
             return new List<ContactViewModel>();
+        }
+
+        public async Task UploadCsv(Stream fileStream)
+        {
+            using var content = new MultipartFormDataContent();
+            using var streamContent = new StreamContent(fileStream);
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
+            content.Add(streamContent, "file", "contacts.csv");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7237/api/contact")
+            {
+                Content = content
+            };
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                //TODO
+            }
         }
     }
 }

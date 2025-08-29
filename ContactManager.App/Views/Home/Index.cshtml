@@ -1,7 +1,10 @@
-﻿@model List<ContactViewModel>;
+﻿<div class="container">
+    <form asp-action="UploadFile" method="post" enctype="multipart/form-data" class="upload-form">
+        <input type="file" name="file" accept=".csv" required />
+        <button type="submit" class="btn-upload">Upload CSV</button>
+    </form>
 
-<div class="container">
-    <table>
+    <table class="contact-table">
         <thead>
             <tr>
                 <th>Name</th>
