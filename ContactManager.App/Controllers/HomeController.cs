@@ -18,13 +18,5 @@ namespace ContactManager.App.Controllers
             var contacts = await _contactDataService.GetAllContacts();
             return View(contacts);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
-        {
-            await _contactDataService.UploadCsv(file.OpenReadStream());
-
-            return RedirectToAction("Index");
-        }
     }
 }

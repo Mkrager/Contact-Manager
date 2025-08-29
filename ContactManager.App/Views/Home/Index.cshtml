@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <form asp-action="UploadFile" method="post" enctype="multipart/form-data" class="upload-form">
+    <form asp-controller="Contact" asp-action="UploadFile" method="post" enctype="multipart/form-data" class="upload-form">
         <input type="file" name="file" id="fileInput" accept=".csv" required style="display: none;" />
         <label for="fileInput" class="btn-upload">Choose File</label>
         <span class="file-name" id="fileName">No file chosen</span>

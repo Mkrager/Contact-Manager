@@ -1,6 +1,5 @@
 ﻿using ContactManager.App.Contracts;
 using ContactManager.App.Models;
-using System.IO;
 using System.Text.Json;
 
 namespace ContactManager.App.Services
@@ -18,6 +17,25 @@ namespace ContactManager.App.Services
             {
                 PropertyNameCaseInsensitive = true
             };
+        }
+
+        public async Task DeleteContact(Guid id)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7275/api/contact/{id}");
+
+                var response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //TODO
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<List<ContactViewModel>> GetAllContacts()

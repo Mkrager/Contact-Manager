@@ -1,4 +1,5 @@
-﻿using ContactManager.Application.Features.Contacts.Commands.UploadContactCsv;
+﻿using ContactManager.Application.Features.Contacts.Commands.DeleteContact;
+using ContactManager.Application.Features.Contacts.Commands.UploadContactCsv;
 using ContactManager.Application.Features.Contacts.Queries.GetContactsList;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,17 @@ namespace ContactManager.Api.Controllers
                 FileStream = file.OpenReadStream()
             });
             return Ok(id);
+        }
+
+        [HttpDelete("{id}", Name = "DeleteContact")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteContact(Guid id)
+        {
+            var deleteCourseCommand = new DeleteContactCommand() { Id = id };
+            await mediator.Send(deleteCourseCommand);
+            return NoContent();
         }
     }
 }
