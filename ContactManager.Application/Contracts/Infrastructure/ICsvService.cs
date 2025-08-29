@@ -2,6 +2,6 @@
 {
     public interface ICsvService<T> where T : class
     {
-        Task ParseCsvAsync(Stream fileStream);
+        Task<List<T>> ParseCsvAsync(Stream fileStream);
     }
 }

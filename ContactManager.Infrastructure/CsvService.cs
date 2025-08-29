@@ -6,7 +6,7 @@ namespace ContactManager.Infrastructure
 {
     public class CsvService<T> : ICsvService<T> where T : class
     {
-        public async Task ParseCsvAsync(Stream fileStream)
+        public async Task<List<T>> ParseCsvAsync(Stream fileStream)
         {
             using var reader = new StreamReader(fileStream);
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -17,6 +17,8 @@ namespace ContactManager.Infrastructure
             {
                 records.Add(record);
             }
+
+            return records;
         }
     }
 }
