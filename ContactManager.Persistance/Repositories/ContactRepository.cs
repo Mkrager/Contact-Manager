@@ -9,7 +9,7 @@ namespace ContactManager.Persistence.Repositories
         {
         }
 
-        public async Task AddRagngeAsync(List<Contact> contacts)
+        public async Task AddRangeAsync(List<Contact> contacts)
         {
             await _dbContext.Contacts.AddRangeAsync(contacts);
             await _dbContext.SaveChangesAsync();

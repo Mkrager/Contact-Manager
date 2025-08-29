@@ -4,6 +4,6 @@ namespace ContactManager.Application.Contracts.Persistance
 {
     public interface IContactRepository : IAsyncRepository<Contact>
     {
-        Task AddRagngeAsync(List<Contact> contacts);
+        Task AddRangeAsync(List<Contact> contacts);
     }
 }

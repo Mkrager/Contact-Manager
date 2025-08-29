@@ -7,14 +7,14 @@ using MediatR;
 
 namespace ContactManager.Application.Features.Contacts.Commands.UploadContactCsv
 {
-    public class UploadContactCsvCommandHandler : IRequestHandler<UploadContactCsvCommand, Guid>
+    public class UploadContactCsvCommandHandler : IRequestHandler<UploadContactCsvCommand>
     {
         private readonly ICsvService<ContactCsvDto> _contactCsvService;
-        private readonly IAsyncRepository<Contact> _contactRepository;
+        private readonly IContactRepository _contactRepository;
         private readonly IMapper _mapper;
         public UploadContactCsvCommandHandler(
             ICsvService<ContactCsvDto> contactCsvService, 
-            IAsyncRepository<Contact> contactRepository,
+            IContactRepository contactRepository,
             IMapper mapper)
         {
             _contactCsvService = contactCsvService;
@@ -22,13 +22,13 @@ namespace ContactManager.Application.Features.Contacts.Commands.UploadContactCsv
             _mapper = mapper;
         }
 
-        public async Task<Guid> Handle(UploadContactCsvCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UploadContactCsvCommand request, CancellationToken cancellationToken)
         {
             var contacts = await _contactCsvService.ParseCsvAsync(request.FileStream);
 
-            var result = await _contactRepository.AddAsync(_mapper.Map<List<Contact>>(contacts).First());
+            await _contactRepository.AddRangeAsync(_mapper.Map<List<Contact>>(contacts));
 
-            return result.Id;
+            return Unit.Value;
         }
     }
 }
