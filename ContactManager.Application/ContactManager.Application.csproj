@@ -20,7 +20,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Features\Contacts\Queries\" />
-	  <Folder Include="Profiles\" />
 	</ItemGroup>
 
 </Project>
