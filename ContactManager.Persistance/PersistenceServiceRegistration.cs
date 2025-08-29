@@ -16,6 +16,7 @@ namespace ContactManager.Persistence
             ("ContactManagerConnectionString")));
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<IContactRepository, ContactRepository>();
 
             return services;
         }
