@@ -1,0 +1,36 @@
+﻿@model List<ContactViewModel>;
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Married</th>
+                <th>Phone</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model)
+            {
+                <tr>
+                    <td>@contact.Name</td>
+                    <td>@contact.DateOfBirth.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <span class="badge @(contact.Married ? "badge-yes" : "badge-no")">
+                            @(contact.Married ? "Yes" : "No")
+                        </span>
+                    </td>
+                    <td>@contact.Phone</td>
+                    <td>@contact.Salary.ToString("C")</td>
+                    <td>
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

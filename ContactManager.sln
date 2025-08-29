@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.Application.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.Persistence.InregrationTests", "ContactManager.Persistence.InregrationTests\ContactManager.Persistence.InregrationTests.csproj", "{7F8EAAB6-10C0-412B-A592-EC3C45CE4C55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager.App", "ContactManager.App\ContactManager.App.csproj", "{7D62989C-DD45-422A-8EA5-C35F1FC87973}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{7F8EAAB6-10C0-412B-A592-EC3C45CE4C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F8EAAB6-10C0-412B-A592-EC3C45CE4C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F8EAAB6-10C0-412B-A592-EC3C45CE4C55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D62989C-DD45-422A-8EA5-C35F1FC87973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D62989C-DD45-422A-8EA5-C35F1FC87973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D62989C-DD45-422A-8EA5-C35F1FC87973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D62989C-DD45-422A-8EA5-C35F1FC87973}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{C4A68CCB-3DBA-4C2D-9D9D-082619EA047C} = {C383E403-1EC4-4C4D-BBAF-38899A6201CD}
 		{308AB06E-9DE8-43B8-AAEA-5B0234ADDBD7} = {50920CAC-119E-4580-B348-D5C25C21FE5D}
 		{7F8EAAB6-10C0-412B-A592-EC3C45CE4C55} = {50920CAC-119E-4580-B348-D5C25C21FE5D}
+		{7D62989C-DD45-422A-8EA5-C35F1FC87973} = {0280E77E-1857-4741-A98B-D29C764EF359}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35B8EF0F-3DF6-4651-A08A-EBED11E364E3}

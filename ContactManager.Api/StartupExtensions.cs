@@ -26,7 +26,7 @@ namespace ContactManager.Api
             {
                 options.AddPolicy("Open", policy =>
                 {
-                    policy.WithOrigins("")
+                    policy.WithOrigins("https://localhost:7113")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
