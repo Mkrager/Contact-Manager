@@ -2,7 +2,7 @@
 
 namespace ContactManager.Domain.Entites
 {
-    public class Person : BaseEntity
+    public class Contact : BaseEntity
     {
         public string Name { get; set; } = string.Empty;
         public DateTime DateOfBirth  { get; set; }
