@@ -1,14 +1,12 @@
-﻿using FluentValidation;
+﻿using ContactManager.Application.DTOs;
+using FluentValidation;
 
-namespace ContactManager.Application.Features.Contacts.Commands.UpdateContact
+namespace ContactManager.Application.Validators
 {
-    public class UpdateContactCommandValidator : AbstractValidator<UpdateContactCommand>
+    public class ContactCsvDtoValidator : AbstractValidator<ContactCsvDto>
     {
-        public UpdateContactCommandValidator()
+        public ContactCsvDtoValidator()
         {
-            RuleFor(c => c.Id)
-                .NotEmpty().WithMessage("Id is required");
-
             RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");

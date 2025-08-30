@@ -2,9 +2,11 @@
 using ContactManager.Application.Contracts.Infrastructure;
 using ContactManager.Application.Contracts.Persistance;
 using ContactManager.Application.DTOs;
+using ContactManager.Application.Features.Contacts.Commands.UpdateContact;
 using ContactManager.Application.Features.Contacts.Commands.UploadContactCsv;
 using ContactManager.Application.Profiles;
 using ContactManager.Application.UnitTests.Mocks;
+using ContactManager.Application.Validators;
 using Moq;
 using Shouldly;
 
@@ -62,6 +64,82 @@ namespace ContactManager.Application.UnitTests.Contacts.Commands
             Assert.Contains(result.Errors,
                 f => f.PropertyName == nameof(UploadContactCsvCommand.FileStream)
                   && f.ErrorMessage == "File is required.");
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenNameEmpty()
+        {
+            var validator = new ContactCsvDtoValidator();
+            var query = new ContactCsvDto
+            {
+                DateOfBirth = new DateTime(2025, 12, 12),
+                Salary = 1234,
+                Married = false,
+                Name = "",
+                Phone = "+41234233423"
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "Name");
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenIncorrectDate()
+        {
+            var validator = new ContactCsvDtoValidator();
+            var query = new ContactCsvDto
+            {
+                DateOfBirth = new DateTime(1752, 1, 1),
+                Salary = 1234,
+                Married = false,
+                Name = "Name",
+                Phone = "+41234233423"
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "DateOfBirth");
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenNegativeSalary()
+        {
+            var validator = new ContactCsvDtoValidator();
+            var query = new ContactCsvDto
+            {
+                DateOfBirth = new DateTime(2025, 12, 12),
+                Salary = -1234,
+                Married = false,
+                Name = "Name",
+                Phone = "+41234233423"
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "Salary");
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenIncorrectNumber()
+        {
+            var validator = new ContactCsvDtoValidator();
+            var query = new ContactCsvDto
+            {
+                DateOfBirth = new DateTime(2025, 12, 12),
+                Salary = -1234,
+                Married = false,
+                Name = "Name",
+                Phone = "+41234233423412341242345235235235235235234"
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "Phone");
         }
 
     }
