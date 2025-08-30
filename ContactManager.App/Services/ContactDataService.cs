@@ -1,4 +1,5 @@
 ﻿using ContactManager.App.Contracts;
+using ContactManager.App.Middlewares;
 using ContactManager.App.Models;
 using System.Text;
 using System.Text.Json;
@@ -20,7 +21,7 @@ namespace ContactManager.App.Services
             };
         }
 
-        public async Task DeleteContactAsync(Guid id)
+        public async Task<ApiResponse> DeleteContactAsync(Guid id)
         {
             try
             {
@@ -30,12 +31,17 @@ namespace ContactManager.App.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    //TODO
+                    return new ApiResponse(System.Net.HttpStatusCode.OK);
                 }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errorMessage = JsonErrorHelper.GetErrorMessage(errorContent);
+                return new ApiResponse(System.Net.HttpStatusCode.BadRequest, errorMessage);
+
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new ApiResponse(System.Net.HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
@@ -57,7 +63,7 @@ namespace ContactManager.App.Services
             return new List<ContactViewModel>();
         }
 
-        public async Task UpdateContactAsync(ContactViewModel contactViewModel)
+        public async Task<ApiResponse> UpdateContactAsync(ContactViewModel contactViewModel)
         {
             try
             {
@@ -70,37 +76,48 @@ namespace ContactManager.App.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    //return new ApiResponse(System.Net.HttpStatusCode.OK);
+                    return new ApiResponse(System.Net.HttpStatusCode.OK);
                 }
 
-                //var errorContent = await response.Content.ReadAsStringAsync();
-                //var errorMessages = JsonSerializer.Deserialize<List<string>>(errorContent);
-                //return new ApiResponse(System.Net.HttpStatusCode.BadRequest, errorMessages.FirstOrDefault());
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errorMessage = JsonErrorHelper.GetErrorMessage(errorContent);
+                return new ApiResponse(System.Net.HttpStatusCode.BadRequest, errorMessage);
             }
             catch (Exception ex)
             {
-                //return new ApiResponse(System.Net.HttpStatusCode.BadRequest, ex.Message);
+                return new ApiResponse(System.Net.HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
-        public async Task UploadCsvAsync(Stream fileStream)
+        public async Task<ApiResponse> UploadCsvAsync(Stream fileStream)
         {
-            using var content = new MultipartFormDataContent();
-            using var streamContent = new StreamContent(fileStream);
-            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
-            content.Add(streamContent, "file", "contacts.csv");
-
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7237/api/contact")
+            try
             {
-                Content = content
-            };
+                using var content = new MultipartFormDataContent();
+                using var streamContent = new StreamContent(fileStream);
+                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
+                content.Add(streamContent, "file", "contacts.csv");
 
-            var response = await _httpClient.SendAsync(request);
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7237/api/contact")
+                {
+                    Content = content
+                };
 
-            if (!response.IsSuccessStatusCode)
+                var response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse(System.Net.HttpStatusCode.OK);
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errorMessage = JsonErrorHelper.GetErrorMessage(errorContent);
+
+                return new ApiResponse(System.Net.HttpStatusCode.BadRequest, errorMessage);
+            }
+            catch (Exception ex)
             {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                //TODO
+                return new ApiResponse(System.Net.HttpStatusCode.BadRequest, ex.Message);
             }
         }
     }

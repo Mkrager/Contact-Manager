@@ -36,12 +36,24 @@
         </div>
     `;
 
-    actionsCell.querySelector(".btn-save").onclick = function () {
-        saveRow(row);
+    var saveBtn = actionsCell.querySelector(".btn-save");
+    var cancelBtn = actionsCell.querySelector(".btn-cancel");
+
+    saveBtn.onclick = function () { saveRow(row); };
+    cancelBtn.onclick = function () { cancelEdit(row); };
+
+    row.onkeydown = function (e) {
+        if (e.key === "Enter") {
+            saveRow(row);
+            e.preventDefault();
+        } else if (e.key === "Escape") {
+            cancelEdit(row);
+            e.preventDefault();
+        }
     };
-    actionsCell.querySelector(".btn-cancel").onclick = function () {
-        cancelEdit(row);
-    };
+
+    var firstInput = tds[0].querySelector("input") || tds[0].querySelector("select");
+    if (firstInput) firstInput.focus();
 }
 
 function saveRow(row) {
@@ -63,7 +75,7 @@ function saveRow(row) {
         Salary: salary
     };
 
-    updateCourse(contact);
+    updateContact(contact);
 
     tds[0].textContent = contact.Name;
     tds[1].textContent = formatForDisplayDate(contact.DateOfBirth);
@@ -78,6 +90,8 @@ function saveRow(row) {
     `;
     actionsCell.querySelector(".btn-edit").onclick = function () { editRow(this); };
     actionsCell.querySelector(".btn-delete").onclick = function () { deleteContact(row.dataset.id); };
+
+    row.onkeydown = null;
 }
 
 function cancelEdit(row) {
@@ -97,7 +111,10 @@ function cancelEdit(row) {
     `;
     actionsCell.querySelector(".btn-edit").onclick = function () { editRow(this); };
     actionsCell.querySelector(".btn-delete").onclick = function () { deleteContact(row.dataset.id); };
+
+    row.onkeydown = null;
 }
+
 
 function formatForInputDate(dateStr) {
     var parts = dateStr.split(".");
@@ -113,7 +130,7 @@ function formatForDisplayDate(isoDateStr) {
     return `${day}.${month}.${year}`;
 }
 
-function updateCourse(contact) {
+function updateContact(contact) {
     $.ajax({
         url: '/contact/update',
         type: 'PUT',

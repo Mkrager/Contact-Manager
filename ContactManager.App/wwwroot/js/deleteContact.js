@@ -4,7 +4,7 @@
         type: 'DELETE',
         dataType: 'json',
         success: function (response) {
-            window.location.href = response.redirectUrl;
+            window.location.href = response.redirectToUrl;
         },
         error: function (error) {
             console.error('Error:', error);

@@ -16,15 +16,28 @@ namespace ContactManager.App.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _contactDataService.DeleteContactAsync(id);
+            var result = await _contactDataService.DeleteContactAsync(id);
 
-            return Json(new { redirectUrl = Url.Action("Index", "Home") });
+            if (result.IsSuccess)
+                return Ok(new { redirectToUrl = Url.Action("Index", "Home") });
+
+            TempData["ErrorMessage"] = result.ErrorText;
+
+            return Ok(new { redirectToUrl = Url.Action("Index", "Home") });
         }
 
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            await _contactDataService.UploadCsvAsync(file.OpenReadStream());
+            var result = await _contactDataService.UploadCsvAsync(file.OpenReadStream());
+
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = "Success!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            TempData["ErrorMessage"] = result.ErrorText;
 
             return RedirectToAction("Index", "Home");
         }
@@ -32,9 +45,14 @@ namespace ContactManager.App.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ContactViewModel contactViewModel)
         {
-            await _contactDataService.UpdateContactAsync(contactViewModel);
+            var result = await _contactDataService.UpdateContactAsync(contactViewModel);
 
-            return RedirectToAction("Index", "Home");
+            if (result.IsSuccess)
+                return Ok(new { redirectToUrl = Url.Action("Index", "Home") });
+
+            TempData["ErrorMessage"] = result.ErrorText;
+
+            return Ok(new { redirectToUrl = Url.Action("Index", "Home") });
         }
     }
 }
