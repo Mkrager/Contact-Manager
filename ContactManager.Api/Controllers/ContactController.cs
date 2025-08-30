@@ -1,4 +1,5 @@
 ﻿using ContactManager.Application.Features.Contacts.Commands.DeleteContact;
+using ContactManager.Application.Features.Contacts.Commands.UpdateContact;
 using ContactManager.Application.Features.Contacts.Commands.UploadContactCsv;
 using ContactManager.Application.Features.Contacts.Queries.GetContactsList;
 using MediatR;
@@ -28,6 +29,16 @@ namespace ContactManager.Api.Controllers
                 FileStream = file.OpenReadStream()
             });
             return Ok(id);
+        }
+
+        [HttpPut(Name = "UpdateContact")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromBody] UpdateContactCommand updateContactCommand)
+        {
+            await mediator.Send(updateContactCommand);
+            return NoContent();
         }
 
         [HttpDelete("{id}", Name = "DeleteContact")]

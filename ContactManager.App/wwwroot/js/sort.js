@@ -1,4 +1,15 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+﻿const fileInput = document.getElementById('fileInput');
+const fileName = document.getElementById('fileName');
+
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+        fileName.textContent = fileInput.files[0].name;
+    } else {
+        fileName.textContent = "No file chosen";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
     const getCellValue = (tr, idx) => tr.children[idx].textContent.trim();
 
     const comparer = (idx, asc) => (a, b) => {

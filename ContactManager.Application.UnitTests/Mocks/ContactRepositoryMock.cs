@@ -42,6 +42,19 @@ namespace ContactManager.Application.UnitTests.Mocks
             mockRepository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Guid id) => contacts.FirstOrDefault(x => x.Id == id));
 
+            mockRepository.Setup(r => r.UpdateAsync(It.IsAny<Contact>()))
+                .Callback((Contact contact) =>
+                {
+                    var oldContact = contacts.FirstOrDefault(x => x.Id == contact.Id);
+                    if (oldContact != null)
+                    {
+                        oldContact.Name = contact.Name;
+                        oldContact.DateOfBirth = contact.DateOfBirth;
+                        oldContact.Married = contact.Married;
+                        oldContact.Phone = contact.Phone;
+                        oldContact.Salary = contact.Salary;
+                    }
+                });
 
             mockRepository.Setup(r => r.AddRangeAsync(It.IsAny<List<Contact>>()))
                 .Callback((List<Contact> contacts) =>
