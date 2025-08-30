@@ -23,7 +23,7 @@ namespace ContactManager.App.Services
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7275/api/contact/{id}");
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7237/api/contact/{id}");
 
                 var response = await _httpClient.SendAsync(request);
 

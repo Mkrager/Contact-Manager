@@ -17,7 +17,7 @@ namespace ContactManager.App.Controllers
         {
             await _contactDataService.DeleteContact(id);
 
-            return RedirectToAction("Index");
+            return Json(new { redirectUrl = Url.Action("Index", "Home") });
         }
 
         [HttpPost]

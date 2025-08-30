@@ -1,10 +1,14 @@
-﻿<div class="container">
+﻿@model List<ContactViewModel>
+
+<div class="container">
+
     <form asp-controller="Contact" asp-action="UploadFile" method="post" enctype="multipart/form-data" class="upload-form">
         <input type="file" name="file" id="fileInput" accept=".csv" required style="display: none;" />
         <label for="fileInput" class="btn-upload">Choose File</label>
         <span class="file-name" id="fileName">No file chosen</span>
         <button type="submit" class="btn-upload">Upload CSV</button>
     </form>
+
     <table class="contact-table">
         <thead>
             <tr>
@@ -31,7 +35,7 @@
                     <td>@contact.Salary.ToString("C")</td>
                     <td>
                         <button class="btn btn-edit">Edit</button>
-                        <button class="btn btn-delete">Delete</button>
+                        <button class="btn btn-delete" onclick="deleteContact('@contact.Id')">Delete</button>
                     </td>
                 </tr>
             }
@@ -40,3 +44,4 @@
 </div>
 
 <script src="~/js/sort.js"></script>
+<script src="~/js/deleteContact.js"></script>

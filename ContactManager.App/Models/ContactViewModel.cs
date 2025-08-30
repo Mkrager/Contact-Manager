@@ -2,6 +2,7 @@
 {
     public class ContactViewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         public bool Married { get; set; }
