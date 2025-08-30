@@ -15,7 +15,9 @@ namespace ContactManager.Infrastructure
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = true,
-                Delimiter = ","
+                Delimiter = ",",
+                MissingFieldFound = null,
+                HeaderValidated = null
             };
 
             using var csv = new CsvReader(reader, config);
@@ -32,11 +34,25 @@ namespace ContactManager.Infrastructure
 
             var records = new List<T>();
 
-            await foreach (var record in csv.GetRecordsAsync<T>())
+            try
             {
-                records.Add(record);
+                await foreach (var record in csv.GetRecordsAsync<T>())
+                {
+                    records.Add(record);
+                }
             }
-
+            catch (HeaderValidationException ex)
+            {
+                throw new InvalidDataException("Invalid CSV header", ex);
+            }
+            catch (TypeConverterException ex)
+            {
+                throw new InvalidDataException($"CSV data format is invalid: {ex.Text}", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidDataException("Failed to parse CSV file.", ex);
+            }
             return records;
         }
     }
