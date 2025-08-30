@@ -1,4 +1,5 @@
 ﻿using ContactManager.App.Contracts;
+using ContactManager.App.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactManager.App.Controllers
@@ -15,7 +16,7 @@ namespace ContactManager.App.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _contactDataService.DeleteContact(id);
+            await _contactDataService.DeleteContactAsync(id);
 
             return Json(new { redirectUrl = Url.Action("Index", "Home") });
         }
@@ -23,7 +24,15 @@ namespace ContactManager.App.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            await _contactDataService.UploadCsv(file.OpenReadStream());
+            await _contactDataService.UploadCsvAsync(file.OpenReadStream());
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ContactViewModel contactViewModel)
+        {
+            await _contactDataService.UpdateContactAsync(contactViewModel);
 
             return RedirectToAction("Index", "Home");
         }

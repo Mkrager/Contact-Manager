@@ -23,7 +23,7 @@
         <tbody>
             @foreach (var contact in Model)
             {
-                <tr>
+                <tr data-id="@contact.Id">
                     <td>@contact.Name</td>
                     <td>@contact.DateOfBirth.ToString("dd.MM.yyyy")</td>
                     <td>
@@ -34,8 +34,10 @@
                     <td>@contact.Phone</td>
                     <td>@contact.Salary.ToString("C")</td>
                     <td>
-                        <button class="btn btn-edit">Edit</button>
-                        <button class="btn btn-delete" onclick="deleteContact('@contact.Id')">Delete</button>
+                        <div class="edit-actions">
+                            <button class="btn btn-edit" onclick='editRow(this)'>Edit</button>
+                            <button class="btn btn-delete" onclick="deleteContact('@contact.Id')">Delete</button>
+                        </div>
                     </td>
                 </tr>
             }
@@ -45,3 +47,4 @@
 
 <script src="~/js/sort.js"></script>
 <script src="~/js/deleteContact.js"></script>
+<script src="~/js/updateContact.js"></script>

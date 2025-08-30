@@ -1,5 +1,6 @@
 ﻿using ContactManager.App.Contracts;
 using ContactManager.App.Models;
+using System.Text;
 using System.Text.Json;
 
 namespace ContactManager.App.Services
@@ -19,7 +20,7 @@ namespace ContactManager.App.Services
             };
         }
 
-        public async Task DeleteContact(Guid id)
+        public async Task DeleteContactAsync(Guid id)
         {
             try
             {
@@ -38,7 +39,7 @@ namespace ContactManager.App.Services
             }
         }
 
-        public async Task<List<ContactViewModel>> GetAllContacts()
+        public async Task<List<ContactViewModel>> GetAllContactsAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7237/api/contact");
 
@@ -56,7 +57,33 @@ namespace ContactManager.App.Services
             return new List<ContactViewModel>();
         }
 
-        public async Task UploadCsv(Stream fileStream)
+        public async Task UpdateContactAsync(ContactViewModel contactViewModel)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7237/api/contact")
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(contactViewModel), Encoding.UTF8, "application/json")
+                };
+
+                var response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //return new ApiResponse(System.Net.HttpStatusCode.OK);
+                }
+
+                //var errorContent = await response.Content.ReadAsStringAsync();
+                //var errorMessages = JsonSerializer.Deserialize<List<string>>(errorContent);
+                //return new ApiResponse(System.Net.HttpStatusCode.BadRequest, errorMessages.FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                //return new ApiResponse(System.Net.HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+        public async Task UploadCsvAsync(Stream fileStream)
         {
             using var content = new MultipartFormDataContent();
             using var streamContent = new StreamContent(fileStream);

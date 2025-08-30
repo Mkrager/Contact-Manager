@@ -15,7 +15,7 @@ namespace ContactManager.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var contacts = await _contactDataService.GetAllContacts();
+            var contacts = await _contactDataService.GetAllContactsAsync();
             return View(contacts);
         }
     }

@@ -4,8 +4,9 @@ namespace ContactManager.App.Contracts
 {
     public interface IContactDataService
     {
-        Task<List<ContactViewModel>> GetAllContacts();
-        Task DeleteContact(Guid id);
-        Task UploadCsv(Stream fileStream);
+        Task<List<ContactViewModel>> GetAllContactsAsync();
+        Task DeleteContactAsync(Guid id);
+        Task UpdateContactAsync(ContactViewModel contactViewModel);
+        Task UploadCsvAsync(Stream fileStream);
     }
 }

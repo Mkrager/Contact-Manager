@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1500px;
     margin: auto;
     background-color: #fff;
     padding: 25px;
@@ -46,7 +46,6 @@ body {
         margin-left: 10px;
     }
 
-
 .btn-upload {
     background-color: #00268a;
     color: white;
@@ -75,6 +74,11 @@ body {
         background-color: #00268a;
         color: white;
         border-radius: 12px;
+    }
+
+    .contact-table td button {
+        display: inline-block;
+        margin-right: 20px;
     }
 
     .contact-table tbody tr {
@@ -131,3 +135,42 @@ body {
     .btn-delete:hover {
         background-color: #c82333;
     }
+
+
+.contact-table input[type="text"],
+.contact-table input[type="date"],
+.contact-table select {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95em;
+    width: auto;
+    min-width: 100px;
+    max-width: 150px;
+    box-sizing: border-box;
+}
+
+.btn-save {
+    background-color: #28a745;
+    color: white;
+}
+
+    .btn-save:hover {
+        background-color: #218838;
+    }
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+}
+
+    .btn-cancel:hover {
+        background-color: #5a6268;
+    }
+
+.edit-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: flex-start;
+}
