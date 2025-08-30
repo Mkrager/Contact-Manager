@@ -38,7 +38,9 @@
             @foreach (var contact in Model)
             {
                 <tr data-id="@contact.Id">
-                    <td>@contact.Name</td>
+                    <td class="name-cell" title="@contact.Name">
+                        @contact.Name
+                    </td>
                     <td>@contact.DateOfBirth.ToString("dd.MM.yyyy")</td>
                     <td>
                         <span class="badge @(contact.Married ? "badge-yes" : "badge-no")">
