@@ -46,5 +46,23 @@ namespace ContactManager.Application.UnitTests.Contacts.Commands
             firstContact.Phone.ShouldBe("+380971234567");
             firstContact.Salary.ShouldBe(18500.50m);
         }
+
+        [Fact]
+        public async Task Validator_ShouldHaveError_WhenFileNull()
+        {
+            var validator = new UploadContactCsvCommandValidator();
+            var query = new UploadContactCsvCommand
+            {
+                FileStream = null
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors,
+                f => f.PropertyName == nameof(UploadContactCsvCommand.FileStream)
+                  && f.ErrorMessage == "File is required.");
+        }
+
     }
 }
