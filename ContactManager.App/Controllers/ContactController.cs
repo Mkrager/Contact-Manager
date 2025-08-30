@@ -25,7 +25,7 @@ namespace ContactManager.App.Controllers
         {
             await _contactDataService.UploadCsv(file.OpenReadStream());
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

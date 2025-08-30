@@ -1,5 +1,7 @@
 ﻿using ContactManager.Application.Contracts.Infrastructure;
 using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 using System.Globalization;
 
 namespace ContactManager.Infrastructure
@@ -9,7 +11,24 @@ namespace ContactManager.Infrastructure
         public async Task<List<T>> ParseCsvAsync(Stream fileStream)
         {
             using var reader = new StreamReader(fileStream);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                Delimiter = ","
+            };
+
+            using var csv = new CsvReader(reader, config);
+
+            csv.Context.TypeConverterOptionsCache.GetOptions<DateTime>().Formats = new[]
+            {
+                "dd.MM.yyyy",
+                "MM/dd/yyyy",
+                "yyyy-MM-dd",
+                "dd/MM/yyyy",
+                "d.M.yyyy",
+                "M/d/yyyy"
+            };
 
             var records = new List<T>();
 
